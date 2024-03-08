@@ -23,9 +23,11 @@ invCont.buildByClassificationId = async function (req, res, next) {
 * *************************************** */
 invCont.buildManagementView = async function (req, res, next) {
   let nav = await utilities.getNav()
+  
   res.render("inventory/management", {
     title: "Vehicle Management",
     nav,
+    
     errors: null,
   })
 }
@@ -47,9 +49,11 @@ invCont.buildAddClassification = async function (req, res, next) {
 * *************************************** */
 invCont.buildAddInventory = async function (req, res, next) {
   let nav = await utilities.getNav()
+  let classList = await utilities.PoplulateDropdown()
   res.render("./inventory/add-inventory", {
     title: "Add Inventory",
     nav,
+    classList,
     errors: null,
   })
 }
@@ -77,6 +81,7 @@ invCont.buildByInvId = async function (req, res, next) {
 * *************************************** */
 invCont.addingInventory = async function (req, res) {
   let nav = await utilities.getNav()
+  let classList = await utilities.PoplulateDropdown()
   const { classification_name, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
   
   const addInvResult = await invModel.addInventory(classification_name, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color
@@ -90,16 +95,47 @@ invCont.addingInventory = async function (req, res) {
     res.status(201).render("inventory/management", {
       title: "Vehicle Management",
       nav,
+      
     })
   } else {
     req.flash("notice", "Sorry, the process failed.")
     res.status(501).render("inventory/add-inventory", {
       title: "Add Inventory",
       nav,
+      classList,
       errors: null,
     })
   }
 }
 
+/* ****************************************
+*  Process adding new classification
+* *************************************** */
+invCont.addClassification = async function (req, res) {
+  let nav = await utilities.getNav()
+  const {classification_name} = req.body
+  
+  const classResult = await invModel.addClassification(
+    classification_name
+  )
+  
+  if (classResult!= null) {
+    req.flash(
+      "notice",
+      `Congratulations, you added a new classification.`
+    )
+    res.status(201).render("inventory/management", {
+      title: "Vehicle Management",
+      nav,
+    })
+  } else {
+    req.flash("notice", "Sorry, the classification failed.")
+    res.status(501).render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      errors: null,
+    })
+  }
+}
 
 module.exports = invCont

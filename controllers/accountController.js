@@ -50,8 +50,8 @@ accountCont.registerAccount = async function (req, res) {
     account_lastname,
     account_email,
     hashedPassword
-  )
-
+  ) 
+  console.log(regResult)
   if (regResult) {
     req.flash(
       "notice",

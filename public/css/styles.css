@@ -288,7 +288,7 @@ section {
 
   /*login.ejs */
   .form-container {
-    background-color: yellow;
+    background-color: rgb(143, 172, 203);
     
 
   }
@@ -357,11 +357,12 @@ section {
   }
 
   input:required:invalid, input:focus:invalid {
-    background-image: url(/images/invalid.png);
+    /* background-image: url(/images/invalid.png); */
     background-position: right top;
     background-repeat: no-repeat;
   }
-    input:required:valid {
+  
+  input:required:valid {
     background-image: url(/images/valid.png);
     background-position: right top;
     background-repeat: no-repeat;

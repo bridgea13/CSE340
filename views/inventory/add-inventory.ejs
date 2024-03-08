@@ -7,21 +7,14 @@
     <% }) %>
 </ul>
 <% } %>
+
     
 <section class = "form-container">
     <form id="classificationForm" action="/inventory/add-inventory" method="POST">
         <fieldset>
             <p>All Fields Are Required</p>
             <label for="classification_name">Classification:</label>            
-            <select type="select" id="classification" name="classification_name" required>
-                <option value="">Select an option</option>
-                <option value="Custom">Custom</option>
-                <option value="Sedan">Sedan</option>
-                <option value="Sport">Sport</option>
-                <option value="SUV">SUV</option>
-                <option value="Truck">Truck</option>
-            </select>
-            <input type="text" class="form-field" id="classification" name="classification_name" required>
+            <%- classList %>            
             <label for="inv_make">Make</label>
             <input type="text" class="form-field" id="make" name="inv_make" required>
             <label for="inv_model">Model</label>
@@ -44,3 +37,4 @@
         </fieldset>
     </form>
 </section>
+
