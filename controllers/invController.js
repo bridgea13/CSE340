@@ -1,6 +1,5 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
-
 const invCont = {}
 
 /* ***************************
@@ -18,11 +17,47 @@ invCont.buildByClassificationId = async function (req, res, next) {
     grid,
   })
 }
+
+/* ****************************************
+*  Deliver management view
+* *************************************** */
+invCont.buildManagementView = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("inventory/management", {
+    title: "Vehicle Management",
+    nav,
+    errors: null,
+  })
+}
+
+/* ****************************************
+*  Deliver add classification view
+* *************************************** */
+invCont.buildAddClassification = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    errors: null,
+  })
+}
+
+/* ****************************************
+*  Deliver add inventory view
+* *************************************** */
+invCont.buildAddInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/add-inventory", {
+    title: "Add Inventory",
+    nav,
+    errors: null,
+  })
+}
+
+
 /* ***************************
  *  Build inventory by inv id
  * ************************** */
-
-
 invCont.buildByInvId = async function (req, res, next) {
   const inv_id = req.params.invId
   const data = await invModel.getItemByInvId(inv_id)
@@ -36,4 +71,35 @@ invCont.buildByInvId = async function (req, res, next) {
     grid,
   })
 }
+
+/* ****************************************
+*  Process adding new inventory
+* *************************************** */
+invCont.addingInventory = async function (req, res) {
+  let nav = await utilities.getNav()
+  const { classification_name, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
+  
+  const addInvResult = await invModel.addInventory(classification_name, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color
+  )
+
+  if (addInvResult) {
+    req.flash(
+      "notice",
+      `Congratulations, you added new inventory.`
+    )
+    res.status(201).render("inventory/management", {
+      title: "Vehicle Management",
+      nav,
+    })
+  } else {
+    req.flash("notice", "Sorry, the process failed.")
+    res.status(501).render("inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      errors: null,
+    })
+  }
+}
+
+
 module.exports = invCont

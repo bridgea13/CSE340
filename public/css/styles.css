@@ -97,6 +97,10 @@ nav a {
   padding-bottom: 1em;
 }
 
+form  {
+  border: 2px solid var(--primary-text);
+}
+
 /* footer.ejs */
 footer{
   margin-top: 2rem;
@@ -282,6 +286,28 @@ section {
     background-color: var(--primary-background);
   }
 
+  /*login.ejs */
+  .form-container {
+    background-color: yellow;
+    
+
+  }
+
+  /*register.ejs password*/
+  form * {
+    display: block;
+  }
+  
+  #pswdBtn {
+    border: 2px solid #000;
+    border-radius: 5px;
+    padding: 2px;
+    margin-top: 1em;
+    font-size: small;
+    width: 7em;
+    text-align: center;
+  }
+
   /* index.ejs */
   #hero ul {
     font-size: 1.6em;
@@ -328,5 +354,16 @@ section {
 
   #add-ons {
     width: 45%;
+  }
+
+  input:required:invalid, input:focus:invalid {
+    background-image: url(/images/invalid.png);
+    background-position: right top;
+    background-repeat: no-repeat;
+  }
+    input:required:valid {
+    background-image: url(/images/valid.png);
+    background-position: right top;
+    background-repeat: no-repeat;
   }
 }
