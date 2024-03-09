@@ -26,7 +26,7 @@ Util.getNav = async function (req, res, next) {
 
 Util.PoplulateDropdown =async function (req, res, next) {
   let data = await invModel.getClassifications()
-  let list = '<select type="select" id="classification" name="classification_name" required>' 
+  let list = '<select id="classification" name="classification_name" required>' 
   list += '<option value="">Select an option</option>' 
   data.rows.forEach((row) => {   
   list += '<option value="'+ row.classification_name + '">' + row.classification_name + '</option>'  

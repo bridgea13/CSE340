@@ -15,23 +15,23 @@
             <p>All Fields Are Required</p>
             <label for="classification_name">Classification:</label>            
             <%- classList %>            
-            <label for="inv_make">Make</label>
+            <label for="make">Make</label>
             <input type="text" class="form-field" id="make" name="inv_make" placeholder="Min of 3 characters" required>
-            <label for="inv_model">Model</label>
+            <label for="model">Model</label>
             <input type="text" class="form-field" id="model" name="inv_model" placeholder="Min of 3 characters" required>
-            <label for="inv_description">Description</label>
-            <input type="textarea" class="form-field" id="description" name="inv_description" required>
-            <label for="inv_image">Image Path</label>      
-            <input src="" class="form-field" id="image" name="inv_image" required>
-            <label for="inv_thumbnail">Thumbnail Path</label>      
-            <input src="" class="form-field" id="thumbnail" name="inv_thumbnail" required>
-            <label for="inv_price">Price</label>
+            <label for="description">Description</label>
+            <input type="text" class="form-field" id="description" name="inv_description" required>
+            <label for="image">Image Path</label>      
+            <input type="text" class="form-field" id="image" name="inv_image">
+            <label for="thumbnail">Thumbnail Path</label>      
+            <input type="text" class="form-field" id="thumbnail" name="inv_thumbnail">
+            <label for="price">Price</label>
             <input type="number" class="form-field" id="price" name="inv_price" placeholder="Decimal or integer" required>
-            <label for="inv_year">Year</label>
+            <label for="year">Year</label>
             <input type="number" class="form-field" id="year" name="inv_year" placeholder="4-digit year" required>
-            <label for="inv_miles">Miles</label>
+            <label for="miles">Miles</label>
             <input type="number" class="form-field" id="miles" name="inv_miles" placeholder="Digits only" required>
-            <label for="inv_color">Color</label>
+            <label for="color">Color</label>
             <input type="text" class="form-field" id="color" name="inv_color" required>
             <button id = "addInvBtn" type="submit" class="form-button">Add Vehicle</button>            
         </fieldset>
