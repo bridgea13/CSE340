@@ -1,9 +1,17 @@
 
-    <h1><%= title %></h1>
+<h1><%= title %></h1>
     
 <section class="management_view">
-    <div>
-        <a href="/inventory/addClassification">Add New Classification</a>
-        <a href="/inventory/add-inventory">Add New Vehicle</a>
-    </div>
+    <ul>
+        <li><a href="/inventory/addClassification">Add New Classification</a></li>
+        <li><a href="/inventory/add-inventory">Add New Vehicle</a></li>
+    </ul>
+    <h2>Manage Inventory</h2>
+    <p>Choose a classification to see those inventory items.</p>
+    <%- classificationSelect %>
+
+    <table id="inventoryDisplay"></table>
+
+    <noscript>Javascript must be enabled to use this page.</noscript>
 </section>
+<script src="../../js/inventory.js"></script>

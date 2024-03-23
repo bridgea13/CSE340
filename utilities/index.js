@@ -31,7 +31,7 @@ Util.PoplulateDropdown =async function (req, res, next) {
   let list = '<select id="classification" name="classification_name" required>' 
   list += '<option value="">Select an option</option>' 
   data.rows.forEach((row) => {   
-  list += '<option value="'+ row.classification_name + '">' + row.classification_name + '</option>'  
+  list += '<option value="'+ row.classification_id + '">' + row.classification_name + '</option>'  
   })
   list += "</select>"
   return list
