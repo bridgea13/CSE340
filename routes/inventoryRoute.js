@@ -17,7 +17,7 @@ router.get("/addClassification", utilities.handleErrors(invController.buildAddCl
 router.get("/management", utilities.handleErrors(invController.buildManagementView));
 router.get("/", utilities.handleErrors(invController.buildManagementView));
 router.get("/getInventory/:classificationid", /*utilities.checkAccountType,*/ utilities.handleErrors(invController.getInventoryJSON))
-router.get("/edit/:inventoryid", /*utilities.checkAccountType,*/ utilities.handleErrors(invController.updateInventory))
+router.get("/edit/:inv_id", /*utilities.checkAccountType,*/ utilities.handleErrors(invController.updateInventory))
 // router.get("/inventory-model", utilities.handleErrors(invModel.getClassifications))
 
 router.post(

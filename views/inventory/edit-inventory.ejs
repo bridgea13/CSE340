@@ -1,0 +1,53 @@
+<% if (title) { %>
+    <h1>
+        <%= title %>
+    </h1>
+    <% } else { res.redirect('/') } %> <%- messages() %>
+            <% if (errors) { %>
+                <ul class="notice">
+                    <% errors.array().forEach(error=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } %>
+
+
+                    <section class="form-container">
+                        <form id="classificationForm" action="/inv/update" method="POST">
+                            <fieldset>
+                                <p>All Fields Are Required</p>
+                                <label for="classification_name">Classification:</label>
+                                <%- classificationList %>
+                                    <label for="make">Make</label>
+                                    <input type="text" class="form-field" id="make" name="inv_make"
+                                        placeholder="Min of 3 characters" required>
+                                    <label for="model">Model</label>
+                                    <input type="text" class="form-field" id="model" name="inv_model"
+                                        placeholder="Min of 3 characters" required>
+                                    <label for="description">Description</label>
+                                    <input type="text" class="form-field" id="description" name="inv_description"
+                                        required>
+                                    <label for="image">Image Path</label>
+                                    <input type="text" class="form-field" id="image" name="inv_image">
+                                    <label for="thumbnail">Thumbnail Path</label>
+                                    <input type="text" class="form-field" id="thumbnail" name="inv_thumbnail">
+                                    <label for="price">Price</label>
+                                    <input type="number" class="form-field" id="price" name="inv_price"
+                                        placeholder="Decimal or integer" required>
+                                    <label for="year">Year</label>
+                                    <input type="number" class="form-field" id="year" name="inv_year"
+                                        placeholder="4-digit year" required>
+                                    <label for="miles">Miles</label>
+                                    <input type="number" class="form-field" id="miles" name="inv_miles"
+                                        placeholder="Digits only" required>
+                                    <label for="color">Color</label>
+                                    <input type="text" class="form-field" id="color" name="inv_color" required>
+                                    <button id="addInvBtn" type="submit" class="form-button">Update Vehicle</button>
+                                    <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%=
+                                        locals.inv_id %>"
+                                        <% } %>>
+                            </fieldset>
+                        </form>
+                    </section>
