@@ -77,17 +77,42 @@ async function addInventory(classification_name, inv_make, inv_model, inv_descri
   }
 }
 
+/* ***************************
+ *  Update Inventory Data
+ * ************************** */
+async function updateInventory(
+  inv_id,
+  inv_make,
+  inv_model,
+  inv_description,
+  inv_image,
+  inv_thumbnail,
+  inv_price,
+  inv_year,
+  inv_miles,
+  inv_color,
+  classification_id
+) {
+  try {
+    const sql =
+      "UPDATE public.inventory SET inv_make = $1, inv_model = $2, inv_description = $3, inv_image = $4, inv_thumbnail = $5, inv_price = $6, inv_year = $7, inv_miles = $8, inv_color = $9, classification_id = $10 WHERE inv_id = $11 RETURNING *"
+    const data = await pool.query(sql, [
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      classification_id,
+      inv_id
+    ])
+    return data.rows[0]
+  } catch (error) {
+    console.error("model error: " + error)
+  }
+}
 
-  // async function populateDropdown() {
-  //     let data = await invModel.getClassifications();        
-  //     let list = '<select type="select" id="classification" name="classification_name" required>';
-  //     list += '<option value="">Select an option</option>';
-  //     data.rows.forEach((row) => {   
-  //         list += '<option value="' + row.classification_name + '">' + row.classification_name + '</option>';
-  //     });
-  //     list += "</select>";
-  //     document.getElementById('dropDown').innerHTML = list;
-  // }
-  // populateDropdown();
-
-module.exports = {getClassifications, getInventoryByClassificationId, getItemByInvId, addClassification, addInventory};
+module.exports = {getClassifications, getInventoryByClassificationId, getItemByInvId, addClassification, addInventory,updateInventory};
