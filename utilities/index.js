@@ -26,15 +26,33 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
-Util.PoplulateDropdown =async function (req, res, next) {
+// Util.PoplulateDropdown =async function (req, res, next) {
+//   let data = await invModel.getClassifications()
+//   let list = '<select id="classification" name="classification_name" required>' 
+//   list += '<option value="">Select an option</option>' 
+//   data.rows.forEach((row) => {   
+//   list += '<option value="'+ row.classification_id + '">' + row.classification_name + '</option>'  
+//   })
+//   list += "</select>"
+//   return list
+// }
+Util.buildClassificationList = async function (classification_id = null) {
   let data = await invModel.getClassifications()
-  let list = '<select id="classification" name="classification_name" required>' 
-  list += '<option value="">Select an option</option>' 
-  data.rows.forEach((row) => {   
-  list += '<option value="'+ row.classification_id + '">' + row.classification_name + '</option>'  
+  let classificationList =
+    '<select name="classification_id" id="classificationList" required>'
+  classificationList += "<option value=''>Choose a Classification</option>"
+  data.rows.forEach((row) => {
+    classificationList += '<option value="' + row.classification_id + '"'
+    if (
+      classification_id != null &&
+      row.classification_id == classification_id
+    ) {
+      classificationList += " selected "
+    }
+    classificationList += ">" + row.classification_name + "</option>"
   })
-  list += "</select>"
-  return list
+  classificationList += "</select>"
+  return classificationList
 }
 
 

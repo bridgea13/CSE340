@@ -115,4 +115,4 @@ async function updateInventory(
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getItemByInvId, addClassification, addInventory,updateInventory};
+module.exports = {getClassifications, getInventoryByClassificationId, getItemByInvId, addClassification, addInventory, updateInventory};
