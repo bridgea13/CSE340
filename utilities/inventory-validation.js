@@ -1,7 +1,7 @@
+const invModel = require("../models/inventory-model");
 const utilities = require(".");
 const { body, validationResult } = require("express-validator");
 const validate = {};
-const invModel = require("../models/inventory-model");
 
 /*  **********************************
  *  Adds Classification Validation Rules
@@ -26,22 +26,22 @@ validate.classificationRules = () => {
  * Check classification data
  * ***************************** */
 validate.checkClassificationData = async (req, res, next) => {
-  const errors = validationResult(req);
   const { classification_name } = req.body;
-
+  let errors = [];
+  console.log("**********made it here");
+  errors = validationResult(req);
   // if there are errors, send back with error messages
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
-    return res.render("./inventory/add-classification", {
+    res.render("inventory/add-classification", {
       title: "Add Classification",
       nav,
       errors,
       classification_name,
-      messages: req.flash(),
+      //messages: req.flash(),
     });
+    return;
   }
-
-  
   next();
 };
 
@@ -85,7 +85,7 @@ validate.inventoryRules = () => {
       .trim()
       .isLength({ min: 1 })
       .withMessage("Please provide a price.")
-      .toFloat() 
+      .toFloat()
       .isFloat({ min: 0 })
       .withMessage("Price must be a positive number."),
 
@@ -93,7 +93,7 @@ validate.inventoryRules = () => {
       .trim()
       .isLength({ min: 1 })
       .withMessage("Please provide the mileage.")
-      .toInt() 
+      .toInt()
       .isInt({ min: 0 })
       .withMessage("Mileage must be a positive integer."),
 
@@ -118,16 +118,31 @@ validate.inventoryRules = () => {
  * Check new inventory data
  * ***************************** */
 validate.checkInventoryData = async (req, res, next) => {
-  const errors = validationResult(req);
-  const {inv_make,inv_model,inv_year,inv_description,inv_image,inv_thumbnail,inv_price,inv_miles,inv_color,classification_id} = req.body;
+  const {
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+  let errors = [];
+  console.log("&&&&&&&&&&&&&madeithere!!!!!");
+  errors = validationResult(req);
 
-  
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
-    let dropdown = await utilities.buildDropdown();
-    return res.render("./inventory/add-inventory", {
-      title: "Add Inventory",nav,dropdown,errors,
-      messages: req.flash(),
+    let classList = await utilities.buildClassificationList();
+    res.render("./inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      classList,
+      errors,
+      //messages: req.flash(),
       inv_make,
       inv_model,
       inv_year,
@@ -139,9 +154,8 @@ validate.checkInventoryData = async (req, res, next) => {
       inv_color,
       classification_id,
     });
+    return;
   }
-
-  
   next();
 };
 
@@ -149,17 +163,32 @@ validate.checkInventoryData = async (req, res, next) => {
  * Check update data and continue to db if valid, return to edit if not
  * ***************************** */
 validate.checkUpdateData = async (req, res, next) => {
-  const errors = validationResult(req);
-  const {inv_id,inv_make,inv_model,inv_year,inv_description,inv_image,inv_thumbnail,inv_price,inv_miles,inv_color,classification_id,} = req.body;
+  //const errors = validationResult(req);
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+  let errors = [];
+  errors = validationResult(req);
 
-  
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
-    let dropdown = await utilities.buildDropdown();
-    return res.render("./inventory/edit-inventory", {
+    let classList = await utilities.buildClassificationList();
+    res.render("./inventory/edit-inventory", {
       title: `Edit ${inv_make} ${inv_model}`,
-      nav,dropdown,errors,
-      messages: req.flash(),
+      nav,
+      classList,
+      errors,
+      //messages: req.flash(),
       inv_id,
       inv_make,
       inv_model,
@@ -172,9 +201,8 @@ validate.checkUpdateData = async (req, res, next) => {
       inv_color,
       classification_id,
     });
+    return;
   }
-
-  
   next();
 };
 

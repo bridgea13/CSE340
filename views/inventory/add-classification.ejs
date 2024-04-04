@@ -13,7 +13,7 @@
         <fieldset>
             <p>FIELD IS REQUIRED</p>
             <div><label>Classification Name</label>           
-            <input type="text" class="form-field" id="classification" name="classification_name" required>
+            <input type="text" class="form-field" id="classification" name="classification_name" value="<%= classification_name  %>" required pattern="[A-Za-z]+">
             <i>Name Must Be Alphabetic Characters Only.</i>
             <label for="classification_name"></label>            
             <button type="submit" class="form-button" id="addClssBtn">Add Classification</button></div>                    

@@ -6,9 +6,8 @@ const invCont = {};
  *  Build inventory by classification view
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {
-  const classification_id = req.params.classificationId;
-
-  const data = await invModel.getInventoryByClassificationId(classification_id);
+  const classification_id = req.params.classificationId
+  const data = await invModel.getInventoryByClassificationId(classification_id)
   const grid = await utilities.buildClassificationGrid(data);
   let nav = await utilities.getNav();
   const className = data[0].classification_name;
@@ -16,6 +15,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
     title: className + " vehicles",
     nav,
     grid,
+   
   });
 };
 
@@ -24,7 +24,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
  * *************************************** */
 invCont.buildManagementView = async function (req, res, next) {
   let nav = await utilities.getNav();
-  const classList = await utilities.PoplulateDropdown();
+  const classList = await utilities.buildClassificationList();
   res.render("inventory/management", {
     title: "Vehicle Management",
     nav,
@@ -42,6 +42,7 @@ invCont.buildAddClassification = async function (req, res, next) {
     title: "Add Classification",
     nav,
     errors: null,
+    classification_name: null,
   });
 };
 
@@ -50,7 +51,7 @@ invCont.buildAddClassification = async function (req, res, next) {
  * *************************************** */
 invCont.buildAddInventory = async function (req, res, next) {
   let nav = await utilities.getNav();
-  let classList = await utilities.PoplulateDropdown();
+  let classList = await utilities.buildClassificationList();
   res.render("./inventory/add-inventory", {
     title: "Add Inventory",
     nav,
@@ -73,6 +74,7 @@ invCont.buildByInvId = async function (req, res, next) {
     title: vehicle.inv_year + " " + vehicle.inv_make + " " + vehicle.inv_model,
     nav,
     grid,
+    errors: null,
   });
 };
 
@@ -81,9 +83,10 @@ invCont.buildByInvId = async function (req, res, next) {
  * *************************************** */
 invCont.addingInventory = async function (req, res) {
   let nav = await utilities.getNav();
-  let classList = await utilities.PoplulateDropdown();
+  let classList = await utilities.buildClassificationList();
   const {
     classification_name,
+    classification_id,
     inv_make,
     inv_model,
     inv_description,
@@ -97,6 +100,7 @@ invCont.addingInventory = async function (req, res) {
 
   const addInvResult = await invModel.addInventory(
     classification_name,
+    classification_id,
     inv_make,
     inv_model,
     inv_description,
@@ -114,8 +118,10 @@ invCont.addingInventory = async function (req, res) {
       title: "Vehicle Management",
       nav,
       classList,
+      errors: null,
     });
   } else {
+    
     req.flash("notice", "Sorry, the process failed.");
     res.status(501).render("inventory/add-inventory", {
       title: "Add Inventory",
@@ -132,7 +138,7 @@ invCont.addingInventory = async function (req, res) {
 invCont.addClassification = async function (req, res) {
   let nav = await utilities.getNav();
   const { classification_name } = req.body;
-  let classList = await utilities.PoplulateDropdown();
+  let classList = await utilities.buildClassificationList();
   const classResult = await invModel.addClassification(classification_name);
 
   if (classResult != null) {
@@ -141,13 +147,16 @@ invCont.addClassification = async function (req, res) {
       title: "Vehicle Management",
       nav,
       classList,
+      errors: null,
     });
   } else {
+    const enteredClassification = req.body.classification_name
     req.flash("notice", "Sorry, the classification failed.");
     res.status(501).render("inventory/add-classification", {
       title: "Add Classification",
       nav,
       errors: null,
+      classification_name: enteredClassification
     });
   }
 };
@@ -178,7 +187,7 @@ invCont.editInventoryView = async function (req, res, next) {
   const vehicle = await invModel.getItemByInvId(inv_id);
   const itemData = vehicle.rows[0];
   console.log(itemData);
-  let classList = await utilities.PoplulateDropdown();
+  let classList = await utilities.buildClassificationList();
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
   res.render("./inventory/edit-inventory", {
     title: "Edit " + itemName,
@@ -204,8 +213,6 @@ invCont.editInventoryView = async function (req, res, next) {
  * ************************** */
 invCont.updateInventory = async function (req, res, next) {
   let nav = await utilities.getNav();
-  console.log("!!!!!!!!!!")
-  console.log(req.body);
   const {
     inv_id,
     inv_make,
@@ -232,15 +239,13 @@ invCont.updateInventory = async function (req, res, next) {
     inv_color,
     classification_id
   );
-  console.log("!!!!!!!!!!")
-  console.log(inv_model);
-
+  
   if (updateResult) {
     const itemName = updateResult.inv_make + " " + updateResult.inv_model;
     req.flash("notice", `The ${itemName} was successfully updated.`);
     res.redirect("/inv/");
   } else {
-    const classList = await utilities.PoplulateDropdown(classification_id);
+    const classList = await utilities.buildClassificationList(classification_id);
     const itemName = `${inv_make} ${inv_model}`;
     req.flash("notice", "Sorry, the insert failed.");
     res.status(501).render("inventory/edit-inventory", {

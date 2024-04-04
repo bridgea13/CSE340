@@ -357,7 +357,7 @@ section {
   }
 
   input:required:invalid, input:focus:invalid {
-    /* background-image: url(/images/invalid.png); */
+    background-image: url(/images/invalid.png); 
     background-position: right top;
     background-repeat: no-repeat;
     background-color: rgb(224, 198, 198);

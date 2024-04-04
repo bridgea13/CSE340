@@ -3,6 +3,7 @@ const express = require("express")
 const router = new express.Router() 
 const invController = require("../controllers/invController")
 const utilities = require("../utilities")
+const regValidate = require('../utilities/inventory-validation')
 
 // const invModel = require("../models/inventory-model")
 
@@ -18,17 +19,28 @@ router.get("/management", utilities.handleErrors(invController.buildManagementVi
 router.get("/", utilities.handleErrors(invController.buildManagementView));
 router.get("/getInventory/:classificationid", /*utilities.checkAccountType,*/ utilities.handleErrors(invController.getInventoryJSON))
 router.get("/edit/:inv_id", /*utilities.checkAccountType,*/ utilities.handleErrors(invController.editInventoryView))
-// router.get("/inventory-model", utilities.handleErrors(invModel.getClassifications))
+//router.get("/inventory-model", utilities.handleErrors(invModel.getClassifications))
 router.get("/delete/:inv_id" ,/*utilities.checkAccountType,*/ utilities.handleErrors(invController.updateInventory))
+
+
 router.post(
-    "/add-inventory",    
+    "/add-inventory", 
+    regValidate.inventoryRules(),
+    regValidate.checkInventoryData,   
     utilities.handleErrors(invController.addingInventory)
 )
 
 router.post(
-    "/add-classification",    
+    "/add-classification",
+    regValidate.classificationRules(),
+    regValidate.checkClassificationData,    
     utilities.handleErrors(invController.addClassification)
 )
-router.post("/update/",utilities.handleErrors(invController.updateInventory))
+
+router.post(
+    "/update/",
+    regValidate.inventoryRules(),
+    regValidate.checkUpdateData,
+    utilities.handleErrors(invController.updateInventory))
 
  module.exports = router;
