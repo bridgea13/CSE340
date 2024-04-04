@@ -228,11 +228,12 @@ section {
 @media only screen and (min-width: 768px) {
   /* body */
   body {
-    background-image:
+    /* background-image:
       linear-gradient(45deg, #000 25%, transparent 25%),
       linear-gradient(45deg, transparent 75%, #000 75%),
       linear-gradient(45deg, transparent 75%, #000 75%),
-      linear-gradient(45deg, #000 25%, #fff 25%);
+      linear-gradient(45deg, #000 25%, #fff 25%); */
+    background-color: #f1eb9e;
     background-size: 100px 100px;
     background-position: 0 0, 0 0, -50px -50px, 50px 50px;
   }

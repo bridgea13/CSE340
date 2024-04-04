@@ -5,7 +5,7 @@
 const classificationDropdown = document.getElementById("classificationList");
 
 // Get a list of items in inventory based on the classification_id
-let classificationList = document.querySelector("#classification");
+let classificationList = document.querySelector("#classificationList");
 
 classificationList.addEventListener("change", function () {
   let classification_id = classificationList.value;
