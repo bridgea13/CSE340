@@ -11,18 +11,20 @@ const errorHandler = (err, req, res, next) => {
     res.status(500).send('Broken!');
 };
 
-// //route for default view
+// route for default view
 router.get("/",utilities.checkLogin,  utilities.handleErrors(accountController.accountManagement))
 
-// get route for my account to deliver login view
+// route for my account to deliver login view
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
-//route for register view
+// route for register view
 router.get("/register", utilities.handleErrors(accountController.buildRegister));
 
-// toute for account route
+// route for account route
 router.get("/account", utilities.handleErrors(accountController.accountLogin));
 
+// route for admin management view
+//router.get("/adminManagement", utilities.handleErrors(accountController.buildadminManagement))
 
 
 // Process the registration data

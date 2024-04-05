@@ -25,6 +25,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
 invCont.buildManagementView = async function (req, res, next) {
   let nav = await utilities.getNav();
   const classList = await utilities.buildClassificationList();
+  //classList is == to classificationSelect from tutorial
   res.render("inventory/management", {
     title: "Vehicle Management",
     nav,
@@ -185,14 +186,13 @@ invCont.editInventoryView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inv_id);
   let nav = await utilities.getNav();
   const vehicle = await invModel.getItemByInvId(inv_id);
-  const itemData = vehicle.rows[0];
-  console.log(itemData);
+  const itemData = vehicle.rows[0];  
   let classList = await utilities.buildClassificationList();
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
   res.render("./inventory/edit-inventory", {
     title: "Edit " + itemName,
     nav,
-    classList,
+    classList: classList,
     errors: null,
     inv_id: itemData.inv_id,
     inv_make: itemData.inv_make,
