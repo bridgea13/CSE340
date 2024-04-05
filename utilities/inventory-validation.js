@@ -27,8 +27,7 @@ validate.classificationRules = () => {
  * ***************************** */
 validate.checkClassificationData = async (req, res, next) => {
   const { classification_name } = req.body;
-  let errors = [];
-  console.log("**********made it here");
+  let errors = [];  
   errors = validationResult(req);
   // if there are errors, send back with error messages
   if (!errors.isEmpty()) {
@@ -130,8 +129,7 @@ validate.checkInventoryData = async (req, res, next) => {
     inv_color,
     classification_id,
   } = req.body;
-  let errors = [];
-  console.log("&&&&&&&&&&&&&madeithere!!!!!");
+  let errors = [];  
   errors = validationResult(req);
 
   if (!errors.isEmpty()) {

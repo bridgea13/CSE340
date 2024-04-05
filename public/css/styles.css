@@ -12,7 +12,7 @@
   --primary-text: #242333;
   --primary-background: #fff;
   --body-font: Inter;
-  --main-accent: #01b0d3;
+  --main-accent: #383bd0cc;
 }
 
 /* General Styles */
@@ -233,7 +233,7 @@ section {
       linear-gradient(45deg, transparent 75%, #000 75%),
       linear-gradient(45deg, transparent 75%, #000 75%),
       linear-gradient(45deg, #000 25%, #fff 25%); */
-    background-color: #f1eb9e;
+    background-color: #041d8c8f;
     background-size: 100px 100px;
     background-position: 0 0, 0 0, -50px -50px, 50px 50px;
   }

@@ -153,6 +153,8 @@ async function updateInventory(
   }
 }
 
+
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
