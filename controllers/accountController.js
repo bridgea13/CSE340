@@ -150,13 +150,29 @@ accountCont.accountManagement = async function (req, res, next) {
 /* ****************************************
 *  deliver adminManagement view
 * *************************************** */
-// accountCont.buildadminManagement = async function (req, res, next) {
-//   let nav = await utilities.getNav()
-//   res.render("account/adminManagement", {
-//     title: "Administrative Account Management",
-//     nav,
-//     errors: null,
-//   })
-// }
+accountCont.buildadminManagement = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const accountList = await utilities.buildAccountList();
+  res.render("account/adminManagement", {
+    title: "Administrative Account Management",
+    nav,
+    errors: null,
+    accountList,
+  })
+}
+
+/* ****************************************
+*  Deliver accountUpdate view
+* *************************************** */  
+accountCont.accountUpdateView = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("account/updateAccount", {
+    title: "Update Account",
+    nav,
+    errors: null,
+  })
+}
+
+
 
 module.exports = accountCont;

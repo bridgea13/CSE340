@@ -1,0 +1,28 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else { res.redirect('/') } %>
+    <%- messages() %> <% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+    <% } %>
+
+    
+
+   
+    <h2>Administrative Account Management</h2>
+    <p>Choose an account to update.</p>
+    <section class = "form-container">
+        <form id="adminAccountForm" action="/account/adminUpdateAccount" method="POST">
+            <fieldset>
+                <br>
+                <%- accountList %>
+                <br>
+                <button id = "updateAccBtn" type="submit" class="form-button">Update Account</button>            
+            </fieldset>
+        </form> 
+
+    <noscript>Javascript must be enabled to use this page.</noscript>
+    </section>

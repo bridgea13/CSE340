@@ -274,8 +274,8 @@ invCont.updateInventory = async function (req, res, next) {
 invCont.deleteView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inv_id);
   let nav = await utilities.getNav();
-  const itemData = await invModel.getItemByInvId(inv_id);
-
+  let itemData = await invModel.getItemByInvId(inv_id);
+itemData = itemData.rows[0]
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
   console.log("******here");
   console.log(itemData);
@@ -299,6 +299,13 @@ invCont.deleteView = async function (req, res, next) {
  *  Delete Inventory Data
  * ************************** */
 invCont.deleteItem = async function (req, res, next) {
+  const {
+    
+    inv_make,
+    inv_model,
+    
+  } = req.body;
+  const itemName = `${inv_make} ${inv_model}`;
   let nav = await utilities.getNav();
   const inv_id = parseInt(req.body.inv_id);
 

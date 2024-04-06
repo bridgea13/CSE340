@@ -40,4 +40,13 @@ async function getAccountByEmail (account_email) {
   }
 }
 
-module.exports = {registerAccount, checkExistingEmail, getAccountByEmail};
+/* *****************************
+* Get accounts
+* ***************************** */
+async function getAccounts() {
+  return await pool.query(
+    "SELECT * FROM public.account ORDER BY account_type"
+  );
+}
+
+module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, getAccounts};

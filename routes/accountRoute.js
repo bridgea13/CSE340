@@ -24,7 +24,7 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 router.get("/account", utilities.handleErrors(accountController.accountLogin));
 
 // route for admin management view
-//router.get("/adminManagement", utilities.handleErrors(accountController.buildadminManagement))
+router.get("/adminManagement", utilities.handleErrors(accountController.buildadminManagement))
 
 
 // Process the registration data
@@ -43,5 +43,10 @@ router.post(
     utilities.handleErrors(accountController.accountLogin)   
 )
   
+router.post(
+    "/adminUpdateAccount",   
+    
+    utilities.handleErrors(accountController.accountUpdateView)   
+)
 
 module.exports = router;

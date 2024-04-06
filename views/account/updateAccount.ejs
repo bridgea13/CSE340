@@ -1,0 +1,33 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else { res.redirect('/') } %> 
+    
+    <%- messages() %>
+    
+    <% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+    <% } %>
+        
+    <section class = "form-container"><p>All fields are required.</p>
+        <form id="registerForm" action="/account/register" method="POST">
+            <fieldset>
+                <label for="account_firstname">First name:</label>
+                <input type="text" class="form-field" id="firstname" name="account_firstname" required value="<%= locals.account_firstname %>">
+                <label for="account_lastname">Last name:</label>
+                <input type="text" class="form-field" id="lastname" name="account_lastname" required value="<%= locals.account_lastname %>">
+                <label for="account_email">Email address:</label>
+                <input type="email" class="form-field" id="email" name="account_email" required value="<%= locals.account_email %>" placeholder="Enter a valid email address">
+                <label for="account_password">Password:</label>
+                <input type="password" class="form-field" id="pword" name="account_password" required 
+                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+                <div><i>Passwords must be a minimum of 12 characters and include 1 capital letter, 1 number and 1 special character.</i></div>
+                <div id="pswdBtn">Show Password</div>
+                <button type="submit" class="form-button">Register</button>           
+            </fieldset>
+        </form>
+    </section>
+    <script src="/js/script.js"></script>

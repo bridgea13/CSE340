@@ -27,9 +27,8 @@
         <%
         if(locals.inv_make)
         {
-        %
-      />
-      value="<%= locals.inv_make %>" <% } %>>
+        %>
+      value="<%= locals.inv_make %>" <% } %> >
       <label for="model">Model</label>
       <input
         type="text"
@@ -42,8 +41,7 @@
         <%
         if(locals.inv_model)
         {
-        %
-      />
+        %>
       value="<%= locals.inv_model %>" <% } %>>
       <label for="description">Description</label>
       <input
@@ -56,8 +54,7 @@
         <%
         if(locals.inv_description)
         {
-        %
-      />
+        %>
       value="<%= locals.inv_description %>" <% } %>>
       <label for="image">Image Path</label>
       <input
@@ -70,8 +67,7 @@
         <%
         if(locals.inv_image)
         {
-        %
-      />
+        %>
       value="<%= locals.inv_image %>" <% } %>>
       <label for="thumbnail">Thumbnail Path</label>
       <input
@@ -84,8 +80,7 @@
         <%
         if(locals.inv_thumbnail)
         {
-        %
-      />
+        %>
       value="<%= locals.inv_thumbnail %>" <% } %>>
       <label for="price">Price</label>
       <input
@@ -98,8 +93,7 @@
         <%
         if(locals.inv_price)
         {
-        %
-      />
+        %>
       value="<%= locals.inv_price %>" <% } %>>
       <label for="year">Year</label>
       <input
@@ -112,8 +106,7 @@
         <%
         if(locals.inv_year)
         {
-        %
-      />
+        %>
       value="<%= locals.inv_year %>" <% } %>>
       <label for="miles">Miles</label>
       <input
@@ -126,8 +119,7 @@
         <%
         if(locals.inv_miles)
         {
-        %
-      />
+        %>
       value="<%= locals.inv_miles %>" <% } %>>
       <label for="color">Color</label>
       <input
@@ -140,14 +132,13 @@
         <%
         if(locals.inv_color)
         {
-        %
-      />
+        %>
       value="<%= locals.inv_color %>" <% } %>>
       <button id="addInvBtn" type="submit" class="form-button" disabled>
         Update Vehicle
       </button>
-      <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%=
-      locals.inv_id %>" <% } %>>
+      <input type="hidden" name="inv_id" <% if(locals.inv_id) { %>
+      value="<%= locals.inv_id %>" <% } %>>
     </fieldset>
   </form>
 </section>
