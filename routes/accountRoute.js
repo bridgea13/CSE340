@@ -44,9 +44,15 @@ router.post(
 )
   
 router.post(
-    "/adminUpdateAccount",   
-    
+    "/adminUpdateAccount",     
     utilities.handleErrors(accountController.accountUpdateView)   
+)
+
+router.post(
+    "/updateAccountReally",
+    regValidate.updateRules(),
+    regValidate.checkUpdateData,
+    utilities.handleErrors(accountController.accountUpdated)
 )
 
 module.exports = router;

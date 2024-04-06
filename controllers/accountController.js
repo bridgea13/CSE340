@@ -183,6 +183,45 @@ accountCont.accountUpdateView = async function (req, res, next) {
   })
 }
 
+/* ****************************************
+*  Process account updated
+* *************************************** */
+accountCont.accountUpdated = async function (req, res) {
+  let nav = await utilities.getNav()
+  const { account_firstname, account_lastname, account_email, account_type, account_password, accountId } = req.body
+  const accountList = await utilities.buildAccountList();
+  
 
+  const updateResult = await accountModel.updateAccount(
+    account_firstname,
+    account_lastname,
+    account_email, 
+    account_type,   
+    account_password,
+    accountId,
+  )
+  
+  if (updateResult) {
+    req.flash(
+      "notice",
+      `Congratulations, you\'ve updated ${account_firstname}.`
+    )
+    res.status(201).render("account/adminManagement", {
+      title: "Administrative Account Management",
+     nav,
+     errors: null,
+     accountList,
+
+    })
+  } else {
+    req.flash("notice", "Sorry, the update failed.")
+    res.status(501).render("account/adminManagement", {
+      title: "Administrative Account Management",
+     nav,
+     errors: null,
+     accountList,
+    })
+  }
+}
 
 module.exports = accountCont;

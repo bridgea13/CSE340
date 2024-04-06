@@ -12,15 +12,18 @@
     </ul>
     <% } %>
         
-    <section class = "form-container"><p>All fields are required.</p>
+    <section class = "form-container">
         <form id="registerForm" action="/account/updateAccountReally" method="POST">
             <fieldset>
+                <p>All fields are required.</p>
                 <label for="account_firstname">First name:</label>
                 <input type="text" class="form-field" id="firstname" name="account_firstname" required value="<%= locals.account_firstname %>">
                 <label for="account_lastname">Last name:</label>
                 <input type="text" class="form-field" id="lastname" name="account_lastname" required value="<%= locals.account_lastname %>">
                 <label for="account_email">Email address:</label>
                 <input type="email" class="form-field" id="email" name="account_email" required value="<%= locals.account_email %>" placeholder="Enter a valid email address">
+                <label for="account_type">Account Type:</label>
+                <input type="text" class="form-field" id="account_type" name="account_type" required value="<%= locals.account_type %>">
                 <br>
                 <button type="submit" class="form-button">Update Account</button>  
                 <input type="hidden" name="account_password" <% if(locals.account_password) { %>
