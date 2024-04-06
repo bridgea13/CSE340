@@ -20,7 +20,7 @@ router.get("/", utilities.handleErrors(invController.buildManagementView));
 router.get("/getInventory/:classificationid", /*utilities.checkAccountType,*/ utilities.handleErrors(invController.getInventoryJSON))
 router.get("/edit/:inv_id", /*utilities.checkAccountType,*/ utilities.handleErrors(invController.editInventoryView))
 //router.get("/inventory-model", utilities.handleErrors(invModel.getClassifications))
-router.get("/delete/:inv_id" ,/*utilities.checkAccountType,*/ utilities.handleErrors(invController.updateInventory))
+router.get("/delete/:inv_id" ,/*utilities.checkAccountType,*/ utilities.handleErrors(invController.deleteView))
 
 
 router.post(
@@ -42,5 +42,11 @@ router.post(
     regValidate.inventoryRules(),
     regValidate.checkUpdateData,
     utilities.handleErrors(invController.updateInventory))
+
+router.post(
+    "/delete/",
+    // regValidate.inventoryRules(),
+    // regValidate.checkUpdateData,
+    utilities.handleErrors(invController.deleteItem))
 
  module.exports = router;

@@ -182,7 +182,7 @@ validate.checkUpdateData = async (req, res, next) => {
     let nav = await utilities.getNav();
     let classList = await utilities.buildClassificationList();
     res.render("./inventory/edit-inventory", {
-      title: `Edit ${inv_make} ${inv_model}`,
+      title: `Edit Inventory`,
       nav,
       classList,
       errors,

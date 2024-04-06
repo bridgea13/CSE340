@@ -1,35 +1,37 @@
 <% if (title) { %>
-    <h1>
-        <%= title %>
-    </h1>
-    <% } else { res.redirect('/') } %> <%- messages() %>
-            <% if (errors) { %>
-                <ul class="notice">
-                    <% errors.array().forEach(error=> { %>
-                        <li>
-                            <%= error.msg %>
-                        </li>
-                        <% }) %>
-                </ul>
-                <% } %>
+<h1><%= title %></h1>
+<% } else { res.redirect('/') } %> <%- messages() %> <% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error=> { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
 
-                    <section class="form-container">
-                        <form id="classificationForm" action="/inv/update" method="POST">
-                            <fieldset>
-                                <p>Confirm Deletion - THE DELETION IS PERMANENT.</p>
+<section class="form-container">
+    <p>Confirm Deletion - THE DELETION IS PERMANENT.</p>
+    <form action="/inv/delete" method="POST">
+        <fieldset>
+            <label for="invmake">Make</label>
+            <input type="text" readonly <% if(locals.inv_make){ %>
+            value="<%= locals.inv_make %>" <% } %>>        
+        
+      
+            <label for="invmodel">Model</label>
+            <input type="text" readonly <% if(locals.inv_model){ %>
+            value="<%= locals.inv_model %>" <% } %>> 
+      
+            <label for="price">Price</label>
+            <input type="text" readonly <% if(locals.inv_price){ %>
+            value="<%= locals.inv_price %>" <% } %>> 
+      
+            <label for="year">Year</label>
+            <input type="text" readonly <% if(locals.inv_year){ %>
+            value="<%= locals.inv_year %>" <% } %>> 
 
-                                <input type="text" class="form-field" id="make" name="inv_make"
-                                        placeholder="Min of 3 characters" required <% if(locals.inv_make) { %> value="<%=
-                                        locals.inv_make %>"
-                                        <% } %>>
-                                <input type="text" class="form-field" id="model" name="inv_model"
-                                        placeholder="Min of 3 characters" required <% if(locals.inv_model) { %> value="<%=
-                                        locals.inv_model %>"
-                                        <% } %>>
-                                <input type="number" class="form-field" id="year" name="inv_year"
-                                        placeholder="4-digit year" required <% if(locals.inv_year) { %> value="<%=
-                                        locals.inv_year %>"
-                                        <% } %>>
-                            </fieldset>
-                        </form>
-                    </section>
+            <button id="addInvBtn" type="submit" class="form-button">Delete Vehicle</button>
+            <input type="hidden" name="inv_id" <% if(locals.inv_id) { %>
+            value="<%= locals.inv_id %>" <% } %>>
+        </fieldset>
+    </form>
+</section>
