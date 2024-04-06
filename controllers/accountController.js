@@ -166,9 +166,19 @@ accountCont.buildadminManagement = async function (req, res, next) {
 * *************************************** */  
 accountCont.accountUpdateView = async function (req, res, next) {
   let nav = await utilities.getNav()
+  const accountId = req.body.account_id;
+  const account = await accountModel.getAccountById(accountId)
+  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  console.log(account)
   res.render("account/updateAccount", {
     title: "Update Account",
     nav,
+    accountId: accountId,
+    account_firstname:account.account_firstname,
+  account_lastname: account.account_lastname,
+  account_email: account.account_email,
+  account_type: account.account_type,
+  account_password: account.account_password,
     errors: null,
   })
 }
