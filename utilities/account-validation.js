@@ -108,12 +108,12 @@ validate.checkRegData = async (req, res, next) => {
  * Check update and return 
  * ***************************** */
 validate.checkUpdateData = async (req, res, next) => {
-  const { accountID, account_firstname, account_lastname, account_email, account_type, account_password } = req.body
+  const { accountId, account_firstname, account_lastname, account_email, account_type, account_password } = req.body
   let errors = []
   errors = validationResult(req)
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
-    res.render("account/update", {
+    res.render("account/updateAccount.ejs", {
       errors,
       title: "Updated",
       nav,

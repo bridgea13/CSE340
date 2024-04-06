@@ -124,28 +124,7 @@ accountCont.accountManagement = async function (req, res, next) {
     errors: null,
   })
 }
-// accountCont.accountManagement = async function (req, res) {
-//   const account_id = res.locals.accountData.account_id;
-//   let nav = await utilities.getNav();
 
-//   const accountData = await accountModel.getAccountById(account_id);
-
-//   if (accountData) {
-//     res.render("account/accountManagement", {
-//       title: "You are Logged in",
-//       nav,
-//       errors: null,
-//       unreadMessages,
-//     });
-//   } else {
-//     req.flash("notice", "sorry unable to login please try again");
-//     res.status(501).render("account/login", {
-//       title: "Login",
-//       nav,
-//       errors: null,
-//     });
-//   }
-// }
 
 /* ****************************************
 *  deliver adminManagement view
@@ -168,8 +147,7 @@ accountCont.accountUpdateView = async function (req, res, next) {
   let nav = await utilities.getNav()
   const accountId = req.body.account_id;
   const account = await accountModel.getAccountById(accountId)
-  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-  console.log(account)
+  
   res.render("account/updateAccount", {
     title: "Update Account",
     nav,
@@ -190,8 +168,6 @@ accountCont.accountUpdated = async function (req, res) {
   let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_type, account_password, accountId } = req.body
   const accountList = await utilities.buildAccountList();
-  
-
   const updateResult = await accountModel.updateAccount(
     account_firstname,
     account_lastname,
