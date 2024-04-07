@@ -17,9 +17,8 @@ router.get("/add-inventory", utilities.handleErrors(invController.buildAddInvent
 router.get("/addClassification", utilities.handleErrors(invController.buildAddClassification));
 router.get("/management", utilities.handleErrors(invController.buildManagementView));
 router.get("/", utilities.handleErrors(invController.buildManagementView));
-router.get("/getInventory/:classificationid", /*utilities.checkAccountType,*/ utilities.handleErrors(invController.getInventoryJSON))
-router.get("/edit/:inv_id", /*utilities.checkAccountType,*/ utilities.handleErrors(invController.editInventoryView))
-//router.get("/inventory-model", utilities.handleErrors(invModel.getClassifications))
+router.get("/getInventory/:classificationid", /*utilities.checkAccountType*/ utilities.handleErrors(invController.getInventoryJSON))
+router.get("/edit/:inv_id", utilities.checkAccountType, utilities.handleErrors(invController.editInventoryView))
 router.get("/delete/:inv_id" ,/*utilities.checkAccountType,*/ utilities.handleErrors(invController.deleteView))
 
 

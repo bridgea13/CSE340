@@ -4,6 +4,26 @@ const Util = {}
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
+
+
+
+
+Util.addGlobalData = function(req,res,next){
+  const token = req.cookies.jwt;
+  const accountData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET )
+  
+  if (accountData){
+    res.locals.account_type_master = accountData.account_type;
+    res.locals.accountName = accountData.account_firstname;
+  }else{
+    res.locals.account_type_master = null;
+    res.locals.accountName = null;
+  }
+ 
+  next();
+};
+
+
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
@@ -56,6 +76,13 @@ Util.buildClassificationList = async function (classification_id = null) {
   return classificationList
 }
 
+Util.checkAccountType = (req,res,next)=>{
+  const token = req.cookies.jwt;
+  const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET )
+  console.log(decoded.account_type);
+  next();
+
+};
 
 /* **************************************
 * Build the classification view HTML

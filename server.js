@@ -62,6 +62,7 @@ app.set("layout", "./layouts/layout")
  * Routes
  *************************/
 app.use(static)
+app.use(utilities.addGlobalData);
 
 //route for javascript
 app.use(express.static('public'))

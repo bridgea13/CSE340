@@ -67,7 +67,9 @@ accountCont.registerAccount = async function (req, res) {
     )
     res.status(201).render("account/login", {
       title: "Login",
+      errors: null,
       nav,
+      
     })
   } else {
     req.flash("notice", "Sorry, the registration failed.")
@@ -87,6 +89,7 @@ accountCont.accountLogin = async function (req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
   const accountData = await accountModel.getAccountByEmail(account_email)
+  
   if (!accountData) {
    req.flash("notice", "Please check your credentials and try again.")
    res.status(400).render("account/login", {
@@ -101,6 +104,8 @@ accountCont.accountLogin = async function (req, res) {
    if (await bcrypt.compare(account_password, accountData.account_password)) {
    delete accountData.account_password
    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
+   res.cookie('accountData', accountData, { maxAge: 3600 * 1000, httpOnly: true })
+   
    if(process.env.NODE_ENV === 'development') {
      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
      } else {
@@ -118,10 +123,16 @@ accountCont.accountLogin = async function (req, res) {
 * *************************************** */
 accountCont.accountManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
+  let accountData = req.cookies.accountData;
+  
+  
+  
   res.render("account/accountManagement", {
     title: "Logged In",
     nav,
     errors: null,
+    accountType: accountData.account_type,
+    firstName: accountData.account_firstname,
   })
 }
 
@@ -153,10 +164,10 @@ accountCont.accountUpdateView = async function (req, res, next) {
     nav,
     accountId: accountId,
     account_firstname:account.account_firstname,
-  account_lastname: account.account_lastname,
-  account_email: account.account_email,
-  account_type: account.account_type,
-  account_password: account.account_password,
+    account_lastname: account.account_lastname,
+    account_email: account.account_email,
+    account_type: account.account_type,
+    account_password: account.account_password,
     errors: null,
   })
 }

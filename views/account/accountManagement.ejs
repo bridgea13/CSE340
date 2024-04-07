@@ -5,4 +5,15 @@
 } %>
 
 <%- messages() %>
+
+<% if(accountType== "Client"){ %>
+    <h2>Welcome User</h2>
+<%} if(accountType== "Employee") { %>
+    <h2> Welcome <%= firstName%> </h2>
+<%} if(accountType == "Admin"){ %>
+    <h2> Welcome <%= firstName%> </h2>
+    <a href="/account/adminManagement">Manage User Accounts</a>
+<%}%>
+
+
 <h2>You're Logged in.</h2>

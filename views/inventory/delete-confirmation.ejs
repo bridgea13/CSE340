@@ -9,9 +9,11 @@
 <% } %>
 
 <section class="form-container">
-    <p>Confirm Deletion - THE DELETION IS PERMANENT.</p>
+    
     <form action="/inv/delete" method="POST">
         <fieldset>
+            <br>
+            <p>Confirm Deletion - THE DELETION IS PERMANENT.</p>
             <label for="invmake">Make</label>
             <input type="text" readonly <% if(locals.inv_make){ %>
             value="<%= locals.inv_make %>" <% } %>>        
@@ -28,7 +30,7 @@
             <label for="year">Year</label>
             <input type="text" readonly <% if(locals.inv_year){ %>
             value="<%= locals.inv_year %>" <% } %>> 
-
+            <br>
             <button id="addInvBtn" type="submit" class="form-button">Delete Vehicle</button>
             <input type="hidden" name="inv_id" <% if(locals.inv_id) { %>
             value="<%= locals.inv_id %>" <% } %>>
