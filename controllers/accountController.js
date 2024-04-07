@@ -104,7 +104,7 @@ accountCont.accountLogin = async function (req, res) {
    if (await bcrypt.compare(account_password, accountData.account_password)) {
    delete accountData.account_password
    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
-   res.cookie('accountData', accountData, { maxAge: 3600 * 1000, httpOnly: true })
+  //res.cookie('accountData', accountData, { maxAge: 3600 * 1000, httpOnly: true })
    
    if(process.env.NODE_ENV === 'development') {
      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
@@ -123,8 +123,9 @@ accountCont.accountLogin = async function (req, res) {
 * *************************************** */
 accountCont.accountManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
-  let accountData = req.cookies.accountData;
-  
+  //let accountData = req.cookies.accountData;
+  const token = req.cookies.jwt;
+  const accountData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET )
   
   
   res.render("account/accountManagement", {
@@ -152,7 +153,7 @@ accountCont.buildadminManagement = async function (req, res, next) {
 }
 
 /* ****************************************
-*  Deliver accountUpdate view
+*  Deliver accountUpdate  for administration view
 * *************************************** */  
 accountCont.accountUpdateView = async function (req, res, next) {
   let nav = await utilities.getNav()
@@ -167,24 +168,119 @@ accountCont.accountUpdateView = async function (req, res, next) {
     account_lastname: account.account_lastname,
     account_email: account.account_email,
     account_type: account.account_type,
-    account_password: account.account_password,
     errors: null,
   })
 }
+accountCont.buildYourManagement = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  // const accountId = req.body.account_id;
+  // const account = await accountModel.getAccountById(accountId)
+  const token = req.cookies.jwt;
+  if (req.cookies.jwt){
+  const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+  console.log(decoded);
+  const account = decoded;
+  res.render("account/yourAccountUpdate", {
+    title: "Update Account",
+    nav,
+    accountId: account.account_id,
+    account_firstname:account.account_firstname,
+    account_lastname: account.account_lastname,
+    account_email: account.account_email,
+    errors: null,
+  })}
+}
+/* ****************************************
+*  Deliver accountUpdate  for administration view
+* *************************************** */  
+accountCont.accountUpdateView = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const accountId = req.body.account_id;
+  const account = await accountModel.getAccountById(accountId)
+  
+  res.render("account/updateAccount", {
+    title: "Update Account",
+    nav,
+    accountId: accountId,
+    account_firstname:account.account_firstname,
+    account_lastname: account.account_lastname,
+    account_email: account.account_email,
+    account_type: account.account_type,
+    errors: null,
+  })
+}
+/* ****************************************
+*  Deliver accountUpdate  for my account
+* *************************************** */  
+accountCont.myAccountUpdated = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const { account_firstname, account_lastname, account_email,  accountId } = req.body
+  const accountList = await utilities.buildAccountList();
+  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  console.log(accountId)
+  const updateResult = await accountModel.updateMyAccount(
+    account_firstname,
+    account_lastname,
+    account_email, 
+    accountId,
+  )
+  
+  
+  if (updateResult) {
+    req.flash(
+      "notice",
+      `Congratulations, your'e account has been updated.`
+    )
+    res.status(201).redirect("/account/")
+  } else {
+    req.flash("notice", "Sorry, the update failed.")
+    res.status(501).render("account/updateAccount", {
+      title: "Update Account",
+      nav,
+      accountId: accountId,
+      account_firstname:account_firstname,
+      account_lastname: account_lastname,
+      account_email: account_email,
+      account_type: account_type,
+      errors: null,
+    })
+  }
+}
 
+/* ****************************************
+*  Deliver manegmentview for one manegmentg
+* *************************************** */  
+accountCont.buildYourManagement = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  // const accountId = req.body.account_id;
+  // const account = await accountModel.getAccountById(accountId)
+  const token = req.cookies.jwt;
+  if (req.cookies.jwt){
+  const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+  console.log(decoded);
+  const account = decoded;
+  res.render("account/yourAccountUpdate", {
+    title: "Update Account",
+    nav,
+    accountId: account.account_id,
+    account_firstname:account.account_firstname,
+    account_lastname: account.account_lastname,
+    account_email: account.account_email,
+    errors: null,
+  })}
+}
 /* ****************************************
 *  Process account updated
 * *************************************** */
 accountCont.accountUpdated = async function (req, res) {
   let nav = await utilities.getNav()
-  const { account_firstname, account_lastname, account_email, account_type, account_password, accountId } = req.body
+  const { account_firstname, account_lastname, account_email, account_type,  accountId } = req.body
   const accountList = await utilities.buildAccountList();
   const updateResult = await accountModel.updateAccount(
     account_firstname,
     account_lastname,
     account_email, 
     account_type,   
-    account_password,
     accountId,
   )
   
@@ -210,5 +306,8 @@ accountCont.accountUpdated = async function (req, res) {
     })
   }
 }
-
+accountCont.logout = (req, res)=> {
+  res.clearCookie('jwt');
+  res.redirect('/account/login');
+}
 module.exports = accountCont;

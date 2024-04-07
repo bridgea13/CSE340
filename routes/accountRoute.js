@@ -24,7 +24,12 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 router.get("/account", utilities.handleErrors(accountController.accountLogin));
 
 // route for admin management view
-router.get("/adminManagement", utilities.handleErrors(accountController.buildadminManagement))
+router.get("/adminManagement",utilities.checkAdminAccount, utilities.handleErrors(accountController.buildadminManagement))
+
+// route for admin management view
+router.get("/manageYourAccount", utilities.handleErrors(accountController.buildYourManagement))
+
+router.get("/logout", utilities.handleErrors(accountController.logout))
 
 
 // Process the registration data
@@ -44,15 +49,21 @@ router.post(
 )
   
 router.post(
-    "/adminUpdateAccount",     
+    "/adminUpdateAccount", utilities.checkAdminAccount,    
     utilities.handleErrors(accountController.accountUpdateView)   
 )
 
 router.post(
-    "/updateAccountReally",
+    "/updateAccountReally",utilities.checkAdminAccount,
     regValidate.updateRules(),
     regValidate.checkUpdateData,
     utilities.handleErrors(accountController.accountUpdated)
+)
+router.post(
+    "/updateMyAccount",utilities.checkAdminAccount,
+    regValidate.myUpdateRules(),
+    regValidate.checkMyUpdateData,
+    utilities.handleErrors(accountController.myAccountUpdated)
 )
 
 module.exports = router;

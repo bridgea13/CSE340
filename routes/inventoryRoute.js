@@ -12,38 +12,38 @@ router.get("/type/:classificationId", invController.buildByClassificationId);
 // Route to inventory route
 
 router.get("/detail/:invId", invController.buildByInvId);
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
+router.get("/add-inventory",utilities.checkAccountType, utilities.handleErrors(invController.buildAddInventory));
 
-router.get("/addClassification", utilities.handleErrors(invController.buildAddClassification));
-router.get("/management", utilities.handleErrors(invController.buildManagementView));
-router.get("/", utilities.handleErrors(invController.buildManagementView));
+router.get("/addClassification", utilities.checkAccountType,utilities.handleErrors(invController.buildAddClassification));
+router.get("/management",utilities.checkAccountType, utilities.handleErrors(invController.buildManagementView));
+router.get("/", utilities.checkAccountType,utilities.handleErrors(invController.buildManagementView));
 router.get("/getInventory/:classificationid", /*utilities.checkAccountType*/ utilities.handleErrors(invController.getInventoryJSON))
 router.get("/edit/:inv_id", utilities.checkAccountType, utilities.handleErrors(invController.editInventoryView))
-router.get("/delete/:inv_id" ,/*utilities.checkAccountType,*/ utilities.handleErrors(invController.deleteView))
+router.get("/delete/:inv_id" ,utilities.checkAccountType, utilities.handleErrors(invController.deleteView))
 
 
 router.post(
-    "/add-inventory", 
+    "/add-inventory", utilities.checkAccountType,
     regValidate.inventoryRules(),
     regValidate.checkInventoryData,   
     utilities.handleErrors(invController.addingInventory)
 )
 
 router.post(
-    "/add-classification",
+    "/add-classification",utilities.checkAccountType,
     regValidate.classificationRules(),
     regValidate.checkClassificationData,    
     utilities.handleErrors(invController.addClassification)
 )
 
 router.post(
-    "/update/",
+    "/update/",utilities.checkAccountType,
     regValidate.inventoryRules(),
     regValidate.checkUpdateData,
     utilities.handleErrors(invController.updateInventory))
 
 router.post(
-    "/delete/",
+    "/delete/",utilities.checkAccountType,
     // regValidate.inventoryRules(),
     // regValidate.checkUpdateData,
     utilities.handleErrors(invController.deleteItem))

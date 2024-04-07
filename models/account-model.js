@@ -66,17 +66,30 @@ async function getAccountById (account_id) {
 }
 
 /* *****************************
-*   updated account
+*   updated account any account via Admin console
 * *************************** */
-async function updateAccount(account_firstname, account_lastname, account_email, account_type, account_password, accountId){
+async function updateAccount(account_firstname, account_lastname, account_email, account_type, accountId){
   try {
-    const sql = "UPDATE public.account SET account_firstname = $1, account_lastname = $2, account_email = $3, account_password = $4, account_type = $5 WHERE account_id = $6 RETURNING *";
-    console.log([account_firstname, account_lastname, account_email, account_password])
-    return await pool.query(sql, [account_firstname, account_lastname, account_email, account_password, account_type, accountId])
+    const sql = "UPDATE public.account SET account_firstname = $1, account_lastname = $2, account_email = $3,  account_type = $4 WHERE account_id = $5 RETURNING *";
+    console.log([account_firstname, account_lastname, account_email])
+    return await pool.query(sql, [account_firstname, account_lastname, account_email,  account_type, accountId])
+  } catch (error) {
+    return error.message
+  }
+}
+
+/* *****************************
+*   updated account my account 
+* *************************** */
+async function updateMyAccount(account_firstname, account_lastname, account_email, accountId){
+  try {
+    const sql = "UPDATE public.account SET account_firstname = $1, account_lastname = $2, account_email = $3  WHERE account_id = $4 RETURNING *";
+    console.log([account_firstname, account_lastname, account_email, accountId])
+    return await pool.query(sql, [account_firstname, account_lastname, account_email, account_type, accountId])
   } catch (error) {
     return error.message
   }
 }
 
 
-module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, getAccounts, getAccountById, updateAccount};
+module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, getAccounts, getAccountById, updateAccount, updateMyAccount};
